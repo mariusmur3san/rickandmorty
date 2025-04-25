@@ -3,8 +3,9 @@ import { useParams } from "react-router";
 import './App.css'
 import { useCharacters, useEpisodes } from './Hooks';
 import LinkItem from './LinkItem';
+import CharacterCard from './CharacterCard';
 
-function Episode() {
+export default function Episode() {
     const { id } = useParams();
     const { data: episodes } = useEpisodes([id!]);
     const charactersIds = episodes?.flatMap(episode => episode.characters.map(c => c.split('/').reverse()[0]));
@@ -16,17 +17,16 @@ function Episode() {
                 <h1>Episode # {episodes?.[0].id}: {episodes?.[0].name}</h1>
                 <h4>Air date: {episodes?.[0].air_date}</h4>
                 <h2>Casting:</h2>
-                <ul>
+                <div className='characters'>
                     {data.map(character => {
                         const { id, name, image } = character;
                         return (
-                            <LinkItem key={id} route={`/character/${character.id}`}>
-                                {character.name}
-                                <img src={character.image} />
+                            <LinkItem key={id} route={`/character/${id}`}>
+                                <CharacterCard id={id} name={name} image={image} />
                             </LinkItem>
                         );
                     })}
-                </ul>
+                </div>
             </>
         )
     }
@@ -35,5 +35,3 @@ function Episode() {
     if (error) return <span>Error: {error.message}</span>;
 
 }
-
-export default Episode

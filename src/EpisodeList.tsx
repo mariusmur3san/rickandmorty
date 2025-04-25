@@ -27,7 +27,7 @@ function App() {
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allRows.length + 1 : allRows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 50,
+    estimateSize: () => 35,
     overscan: 5,
   })
 
@@ -61,6 +61,8 @@ function App() {
   return (
     <>
       <SearchBox onSearchHanlder={(text) => debouncedSearch(text)} />
+      <br />
+      <br />
       <div>
         {status === 'pending'
           ? <p>Loading...</p>
@@ -70,7 +72,7 @@ function App() {
               ref={parentRef}
               className="List"
               style={{
-                height: `400px`,
+                height: `500px`,
                 width: `100%`,
                 overflow: 'auto',
               }}

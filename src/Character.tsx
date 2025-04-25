@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import './App.css'
 import { useCharacters, useEpisodes } from './Hooks';
 import LinkItem from './LinkItem';
+import CharacterCard from './CharacterCard';
 
 function Caracter() {
     let { id } = useParams();
@@ -13,19 +14,22 @@ function Caracter() {
     if (episodes) {
         return (
             <>
-                <h1>Character # {characters?.[0].id}: {characters?.[0].name}</h1>
-                <img src={characters?.[0].image} />
+                <CharacterCard
+                    id={characters?.[0].id}
+                    name={characters?.[0].name}
+                    image={characters?.[0].image}
+                />
                 <h2>Playing in episodes:</h2>
-                <ul>
+                <div>
                     {episodes.map(episode => {
                         const { id, name } = episode;
                         return (
                             <LinkItem key={id} route={`/episode/${episode.id}`}>
-                                <li>{episode.name}</li>
+                                <p>{episode.name}</p>
                             </LinkItem>
                         );
                     })}
-                </ul>
+                </div >
             </>
         )
     }
