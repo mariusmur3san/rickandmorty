@@ -12,6 +12,10 @@ import Scroller from './Scroller';
 
 function App() {
   const [searchText, setSearchText] = useState('');
+  const debouncedSearch = debounce(
+    textValue => setSearchText(textValue),
+    { wait: 500 }
+  );
   const {
     status,
     data,
@@ -22,7 +26,7 @@ function App() {
     hasNextPage,
   } = useAllEpisodes(searchText);
 
-  const allRows = data
+  const episodeList = data
     ? data.pages.flatMap((d) => d.episodes.map(episode => {
       const { id, name, episode: code } = episode;
       return (
@@ -32,11 +36,6 @@ function App() {
       );
     }))
     : [];
-
-  const debouncedSearch = debounce(
-    textValue => setSearchText(textValue),
-    { wait: 500 }
-  );
 
   return (
     <>
@@ -49,7 +48,7 @@ function App() {
           : status === 'error'
             ? <span>Error: {error.message}</span>
             : <Scroller
-              items={allRows}
+              items={episodeList}
               hasNextPage={hasNextPage}
               isFetchingNextPage={isFetchingNextPage}
               fetchNextPage={fetchNextPage}

@@ -13,7 +13,7 @@ function Caracter() {
     const { isLoading, data: episodes, error, isFetching, status } = useEpisodes(episodeIds || []);
 
     if (episodes) {
-        const items = episodes.map(episode => {
+        const elisodeComponents = episodes.map(episode => {
             const { id, name, episode: code } = episode;
             return (
                 <LinkItem key={id} route={`/episode/${id}`}>
@@ -29,7 +29,7 @@ function Caracter() {
                     image={characters?.[0].image}
                 />
                 <h2>Episodes:</h2>
-                <Scroller items={items} />
+                <Scroller items={elisodeComponents} />
             </div>
         )
     }

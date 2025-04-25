@@ -13,7 +13,7 @@ export default function Episode() {
     const { isLoading, data: characters, error, isFetching, status } = useCharacters(charactersIds || []);
 
     if (characters) {
-        const items = characters.map(character => {
+        const caracterComponents = characters.map(character => {
             const { id, name, image } = character;
             return (
                 <LinkItem key={id} route={`/character/${id}`}>
@@ -26,7 +26,10 @@ export default function Episode() {
                 <h2>Episode {episodes?.[0].episode} : {episodes?.[0].name}</h2>
                 <p>Air date: {episodes?.[0].air_date}</p>
                 <h2>Characters:</h2>
-                <Scroller items={items} estimateSize={140} />
+                <Scroller
+                    items={caracterComponents}
+                    estimateSize={140}
+                />
             </>
         )
     }
