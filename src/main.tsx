@@ -12,7 +12,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import './index.css'
 import App from './App'
-import EpisodeWrapper from './Episode'
+import Episode from './Episode'
 import Caracter from './Character'
 import EpisodeList from './EpisodeList'
 
@@ -33,7 +33,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route element={<App />}>
             <Route path="/episode?" element={<EpisodeList />} />
-            <Route path="episode/:id" element={<EpisodeWrapper />} />
+            <Route path="episode/:id" element={<Episode />} />
             <Route path="character/:id" element={<Caracter />} />
           </Route>
         </Routes>

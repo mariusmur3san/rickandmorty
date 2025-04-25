@@ -19,3 +19,7 @@ export type Character = {
     image: string;
     episode: string[];
 }
+
+export interface SearchProps {
+    onSearchHanlder: (text: string) => void
+}

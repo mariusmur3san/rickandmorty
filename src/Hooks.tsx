@@ -2,13 +2,14 @@
 import { useInfiniteQuery, useQueries, useQuery } from "@tanstack/react-query";
 import { Character, Episode, Episodes } from "./Types";
 
-const staleTime = 0; //1000 * 60 * 5;
+const staleTime = 1000 * 60 * 5;
 
 export async function fetchAllEpisodes(
+    name: string,
     page: number = 1,
 ): Promise<{ episodes: Array<Episode>; nextPage: number | null }> {
     const response = await fetch(
-        `https://rickandmortyapi.com/api/episode/?page=${page}`
+        `https://rickandmortyapi.com/api/episode/?page=${page}&name=${name}`
     );
     const { results, info: { next } }: Episodes = await response.json();
 
@@ -18,10 +19,10 @@ export async function fetchAllEpisodes(
     }
 }
 
-export function useAllEpisodes() {
+export function useAllEpisodes(name: string) {
     return useInfiniteQuery({
-        queryKey: ['episodes'],
-        queryFn: (ctx) => fetchAllEpisodes(ctx.pageParam),
+        queryKey: ['episodes', name],
+        queryFn: (ctx) => fetchAllEpisodes(name, ctx.pageParam),
         getNextPageParam: (lastGroup) => lastGroup.nextPage,
         initialPageParam: 1,
         staleTime,

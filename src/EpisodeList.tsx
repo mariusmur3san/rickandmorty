@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   useInfiniteQuery,
 } from '@tanstack/react-query'
@@ -6,8 +6,11 @@ import './App.css'
 import { fetchAllEpisodes, useAllEpisodes, useEpisodes } from './Hooks'
 import { useVirtualizer } from '@tanstack/react-virtual';
 import LinkItem from './LinkItem';
+import SearchBox from './SearchBox';
+import { debounce } from '@tanstack/pacer';
 
 function App() {
+  const [searchText, setSearchText] = useState('');
   const {
     status,
     data,
@@ -16,7 +19,7 @@ function App() {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useAllEpisodes();
+  } = useAllEpisodes(searchText);
 
   const allRows = data ? data.pages.flatMap((d) => d.episodes) : []
 
@@ -51,63 +54,71 @@ function App() {
     rowVirtualizer.getVirtualItems()
   ])
 
+  const debouncedSearch = debounce(
+    textValue => setSearchText(textValue),
+    { wait: 500 }
+  );
+
   return (
-    <div>
-      {status === 'pending'
-        ? <p>Loading...</p>
-        : status === 'error'
-          ? <span>Error: {error.message}</span>
-          : <div
-            ref={parentRef}
-            className="List"
-            style={{
-              height: `400px`,
-              width: `100%`,
-              overflow: 'auto',
-            }}
-          >
-            <div
+    <>
+      <SearchBox onSearchHanlder={(text) => debouncedSearch(text)} />
+      <div>
+        {status === 'pending'
+          ? <p>Loading...</p>
+          : status === 'error'
+            ? <span>Error: {error.message}</span>
+            : <div
+              ref={parentRef}
+              className="List"
               style={{
-                height: `${rowVirtualizer.getTotalSize()}px`,
-                width: '100%',
-                position: 'relative',
+                height: `400px`,
+                width: `100%`,
+                overflow: 'auto',
               }}
             >
-              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                const isLoaderRow = virtualRow.index > allRows.length - 1;
-                const episode = allRows[virtualRow.index];
+              <div
+                style={{
+                  height: `${rowVirtualizer.getTotalSize()}px`,
+                  width: '100%',
+                  position: 'relative',
+                }}
+              >
+                {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                  const isLoaderRow = virtualRow.index > allRows.length - 1;
+                  const episode = allRows[virtualRow.index];
 
-                return (
-                  <div
-                    key={virtualRow.index}
+                  return (
+                    <div
+                      key={virtualRow.index}
 
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: `${virtualRow.size}px`,
-                      transform: `translateY(${virtualRow.start}px)`,
-                    }}
-                  >
-                    {isLoaderRow
-                      ? hasNextPage
-                        ? 'Loading more...'
-                        : 'Nothing more to load'
-                      : <LinkItem route={`/episode/${episode.id}`}>
-                        {virtualRow.index + 1}. {episode.name}
-                      </LinkItem>
-                    }
-                  </div>
-                )
-              })}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: `${virtualRow.size}px`,
+                        transform: `translateY(${virtualRow.start}px)`,
+                      }}
+                    >
+                      {isLoaderRow
+                        ? hasNextPage
+                          ? 'Loading more...'
+                          : 'Nothing more to load'
+                        : <LinkItem route={`/episode/${episode.id}`}>
+                          {virtualRow.index + 1}. {episode.name}
+                        </LinkItem>
+                      }
+                    </div>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-      }
-      <div>
-        {isFetching && !isFetchingNextPage ? 'Background Updating...' : null}
+        }
+        <div>
+          {isFetching && !isFetchingNextPage ? 'Background Updating...' : null}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

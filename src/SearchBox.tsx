@@ -1,0 +1,15 @@
+import React from "react";
+import { useState } from "react";
+import { SearchProps } from "./Types";
+
+
+export default function SearchBox({ onSearchHanlder }: SearchProps) {
+    const [text, setText] = useState('');
+    const onSearch = (value: string) => {
+        setText(value);
+        onSearchHanlder(value);
+    }
+    return (
+        <input value={text} onChange={(e) => onSearch(e.currentTarget.value)} />
+    );
+}
