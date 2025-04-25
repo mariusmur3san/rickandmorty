@@ -10,6 +10,10 @@ export default function SearchBox({ onSearchHanlder }: SearchProps) {
         onSearchHanlder(value);
     }
     return (
-        <input value={text} onChange={(e) => onSearch(e.currentTarget.value)} />
+        <input
+            value={text}
+            onChange={(e) => onSearch(e.currentTarget.value)}
+            placeholder="Type to search"
+        />
     );
 }

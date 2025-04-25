@@ -4,6 +4,7 @@ import './App.css'
 import { useCharacters, useEpisodes } from './Hooks';
 import LinkItem from './LinkItem';
 import CharacterCard from './CharacterCard';
+import Scroller from './Scroller';
 
 function Caracter() {
     let { id } = useParams();
@@ -12,25 +13,24 @@ function Caracter() {
     const { isLoading, data: episodes, error, isFetching, status } = useEpisodes(episodeIds || []);
 
     if (episodes) {
+        const items = episodes.map(episode => {
+            const { id, name, episode: code } = episode;
+            return (
+                <LinkItem key={id} route={`/episode/${id}`}>
+                    <h2>{code} | {name}</h2>
+                </LinkItem>
+            );
+        });
         return (
-            <>
+            <div>
                 <CharacterCard
                     id={characters?.[0].id}
                     name={characters?.[0].name}
                     image={characters?.[0].image}
                 />
-                <h2>Playing in episodes:</h2>
-                <div>
-                    {episodes.map(episode => {
-                        const { id, name } = episode;
-                        return (
-                            <LinkItem key={id} route={`/episode/${episode.id}`}>
-                                <p>{episode.name}</p>
-                            </LinkItem>
-                        );
-                    })}
-                </div >
-            </>
+                <h2>Episodes:</h2>
+                <Scroller items={items} />
+            </div>
         )
     }
 
