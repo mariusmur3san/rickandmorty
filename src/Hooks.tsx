@@ -11,11 +11,16 @@ export async function fetchAllEpisodes(
     const response = await fetch(
         `https://rickandmortyapi.com/api/episode/?page=${page}&name=${name}`
     );
-    const { results, info: { next } }: Episodes = await response.json();
-
+    if (response.ok) {
+        const { results, info: { next } }: Episodes = await response.json();
+        return {
+            episodes: results,
+            nextPage: next ? page + 1 : null
+        }
+    }
     return {
-        episodes: results,
-        nextPage: next ? page + 1 : null
+        episodes: [],
+        nextPage: null
     }
 }
 

@@ -22,7 +22,6 @@ function App() {
   } = useAllEpisodes(searchText);
 
   const allRows = data ? data.pages.flatMap((d) => d.episodes) : []
-
   const parentRef = useRef<HTMLDivElement>(null)
 
   const rowVirtualizer = useVirtualizer({
