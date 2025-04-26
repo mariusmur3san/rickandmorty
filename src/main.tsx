@@ -1,7 +1,7 @@
 import React from 'react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Route, Routes } from 'react-router'
+import { HashRouter, Route, Routes } from 'react-router'
 import {
   QueryClient,
   QueryClientProvider,
@@ -29,7 +29,7 @@ createRoot(document.getElementById('root')!).render(
       client={queryClient}
       persistOptions={{ persister }}
     >
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route element={<App />}>
             <Route path="/episode?" element={<EpisodeList />} />
@@ -37,7 +37,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="character/:id" element={<Caracter />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
       <ReactQueryDevtools initialIsOpen />
     </PersistQueryClientProvider>
   </StrictMode >,

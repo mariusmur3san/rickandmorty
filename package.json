@@ -1,5 +1,6 @@
 {
   "name": "rickandmorty",
+  "homepage": "https://mariusmur3san.github.io/rickandmorty/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
