@@ -20,8 +20,6 @@ export type Character = {
     id: number;
     name: string;
     image: string;
-    species: string;
-    origin: string;
     episode: string[];
 }
 
@@ -30,7 +28,7 @@ export interface SearchProps {
 }
 
 export interface ScrollerProps {
-    items: any;
+    items: React.ReactElement[];
     estimateSize?: number;
     hasNextPage?: boolean;
     isFetchingNextPage?: boolean;

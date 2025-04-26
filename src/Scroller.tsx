@@ -1,15 +1,19 @@
+import React from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { ScrollerProps } from "./Types";
-import { useEffect, useRef } from "react";
-import React from "react";
-import LinkItem from "./LinkItem";
+import { useCallback, useEffect, useRef } from "react";
 
-export default function Scroller({
-    items, estimateSize = 50, hasNextPage, isFetchingNextPage, fetchNextPage
-}: ScrollerProps) {
+
+export default function Scroller(props: ScrollerProps) {
+    const {
+        items, estimateSize = 50, hasNextPage, isFetchingNextPage, fetchNextPage,
+    } = props
     const parentRef = useRef<HTMLDivElement>(null)
     const rowVirtualizer = useVirtualizer({
         count: hasNextPage ? items.length + 1 : items.length,
+        getItemKey: useCallback(
+            (index: number) => items[index]?.key ?? index, [items]
+        ),
         getScrollElement: () => parentRef.current,
         estimateSize: () => estimateSize,
         overscan: 5,

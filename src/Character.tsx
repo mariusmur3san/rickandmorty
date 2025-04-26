@@ -26,9 +26,10 @@ function Caracter() {
         return (
             <div>
                 <CharacterCard
-                    id={characters?.[0].id}
-                    name={characters?.[0].name}
-                    image={characters?.[0].image}
+                    key={id}
+                    id={characters?.[0].id || 0}
+                    name={characters?.[0].name || ''}
+                    image={characters?.[0].image || ''}
                 />
                 <h2>Episodes:</h2>
                 <Scroller items={elisodeComponents} />

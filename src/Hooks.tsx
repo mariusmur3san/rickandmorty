@@ -8,19 +8,21 @@ export async function fetchAllEpisodes(
     name: string,
     page: number = 1,
 ): Promise<{ episodes: Array<Episode>; nextPage: number | null }> {
-    const response = await fetch(
-        `https://rickandmortyapi.com/api/episode/?page=${page}&name=${name}`
-    );
-    if (response.ok) {
+    try {
+        const response = await fetch(
+            `https://rickandmortyapi.com/api/episode/?page=${page}&name=${name}`
+        );
+        if (!response.ok) {
+            throw new Error(`${response.status}`);
+        }
         const { results, info: { next } }: Episodes = await response.json();
         return {
             episodes: results,
             nextPage: next ? page + 1 : null
         }
-    }
-    return {
-        episodes: [],
-        nextPage: null
+    } catch (e) {
+        console.error(e);
+        return { episodes: [], nextPage: null }
     }
 }
 
@@ -37,13 +39,19 @@ export function useAllEpisodes(name: string) {
 export async function fetchEpisodes(
     ids: string[] = []
 ): Promise<Episode[]> {
-    const response = await fetch(
-        `https://rickandmortyapi.com/api/episode/${ids}`
-    );
-    const ret = await response.json();
-    return (
-        ret?.length ? ret : [ret]
-    );
+    try {
+        const response = await fetch(
+            `https://rickandmortyapi.com/api/episode/${ids}`
+        );
+        if (!response.ok) {
+            throw new Error(`${response.status}`);
+        }
+        const ret = await response.json();
+        return ret?.length ? ret : [ret];
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
 }
 
 export function useEpisodes(ids: string[]) {
@@ -58,13 +66,19 @@ export function useEpisodes(ids: string[]) {
 export async function fetchCharacters(
     ids: string[] = []
 ): Promise<Character[]> {
-    const response = await fetch(
-        `https://rickandmortyapi.com/api/character/${ids}`
-    );
-    const ret = await response.json();
-    return (
-        ret?.length ? ret : [ret]
-    );
+    try {
+        const response = await fetch(
+            `https://rickandmortyapi.com/api/character/${ids}`
+        );
+        if (!response.ok) {
+            throw new Error(`${response.status}`);
+        }
+        const ret = await response.json();
+        return ret?.length ? ret : [ret];
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
 }
 
 export function useCharacters(ids: string[]) {

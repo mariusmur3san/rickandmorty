@@ -6,7 +6,7 @@ export default function App() {
     return (
         <div>
             <LinkItem route={'/'}>
-                <h2>Rick and Morty</h2>
+                <h2>Home</h2>
             </LinkItem>
             <br />
             <Outlet />
