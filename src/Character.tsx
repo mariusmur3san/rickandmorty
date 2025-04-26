@@ -10,7 +10,9 @@ function Caracter() {
     let { id } = useParams();
     const { data: characters } = useCharacters([id!]);
     const episodeIds = characters?.flatMap(character => character.episode.map(c => c.split('/').reverse()[0]));
-    const { isLoading, data: episodes, error, isFetching, status } = useEpisodes(episodeIds || []);
+    const {
+        isLoading, data: episodes, error, isFetching, status
+    } = useEpisodes(episodeIds || []);
 
     if (episodes) {
         const elisodeComponents = episodes.map(episode => {
