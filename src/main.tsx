@@ -1,27 +1,22 @@
-import React from 'react'
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { HashRouter, Route, Routes } from 'react-router'
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import { QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { HashRouter, Route, Routes } from 'react-router';
 
-import './index.css'
-import App from './App'
-import Episode from './Episode'
-import Caracter from './Character'
-import EpisodeList from './EpisodeList'
-
+import './index.css';
+import App from './App';
+import Caracter from './Character';
+import Episode from './Episode';
+import EpisodeList from './EpisodeList';
 
 const queryClient = new QueryClient();
 
 const persister = createSyncStoragePersister({
   storage: window.localStorage,
-})
+});
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -40,5 +35,5 @@ createRoot(document.getElementById('root')!).render(
       </HashRouter>
       <ReactQueryDevtools initialIsOpen />
     </PersistQueryClientProvider>
-  </StrictMode >,
-)
+  </StrictMode>
+);

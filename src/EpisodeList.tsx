@@ -1,21 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react'
-import {
-  useInfiniteQuery,
-} from '@tanstack/react-query'
-import './App.css'
-import { fetchAllEpisodes, useAllEpisodes, useEpisodes } from './Hooks'
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { useState } from 'react';
+
+import './App.css';
+import { useAllEpisodes } from './Hooks';
 import LinkItem from './LinkItem';
-import SearchBox from './SearchBox';
-import { debounce } from '@tanstack/pacer';
 import Scroller from './Scroller';
+import SearchBox from './SearchBox';
+
+import { debounce } from '@tanstack/pacer';
 
 function App() {
   const [searchText, setSearchText] = useState('');
-  const debouncedSearch = debounce(
-    textValue => setSearchText(textValue),
-    { wait: 500 }
-  );
+  const debouncedSearch = debounce((textValue) => setSearchText(textValue), {
+    wait: 500,
+  });
   const {
     status,
     data,
@@ -27,14 +24,19 @@ function App() {
   } = useAllEpisodes(searchText);
 
   const episodeList = data
-    ? data.pages.flatMap((d) => d.episodes.map(episode => {
-      const { id, name, episode: code } = episode;
-      return (
-        <LinkItem key={id} route={`/episode/${id}`}>
-          <h2>{code} | {name}</h2>
-        </LinkItem>
-      );
-    }))
+    ? data.pages.flatMap((d) =>
+        d.episodes.map((episode) => {
+          const { id, name, episode: code } = episode;
+
+          return (
+            <LinkItem key={id} route={`/episode/${id}`}>
+              <h2>
+                {code} | {name}
+              </h2>
+            </LinkItem>
+          );
+        })
+      )
     : [];
 
   return (
@@ -43,23 +45,24 @@ function App() {
       <br />
       <br />
       <div>
-        {status === 'pending'
-          ? <p>Loading...</p>
-          : status === 'error'
-            ? <span>Error: {error.message}</span>
-            : <Scroller
-              items={episodeList}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-              fetchNextPage={fetchNextPage}
-            />
-        }
+        {status === 'pending' ? (
+          <p>Loading...</p>
+        ) : status === 'error' ? (
+          <span>Error: {error.message}</span>
+        ) : (
+          <Scroller
+            items={episodeList}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+          />
+        )}
         <div>
           {isFetching && !isFetchingNextPage ? 'Background Updating...' : null}
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
