@@ -204,7 +204,7 @@ describe('Hooks', () => {
         test('it fetches multiple episodes', async () => {
             fetchMock.mockResponseOnce(JSON.stringify([mockEpispode1, mockEpispode2]));
 
-            const result = await fetchEpisodes(['1']);
+            const result = await fetchEpisodes(['1', '2']);
             expect(result).toEqual([mockEpispode1, mockEpispode2]);
         });
     });
