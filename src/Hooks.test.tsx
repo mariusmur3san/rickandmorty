@@ -208,6 +208,7 @@ describe('Hooks', () => {
             expect(result).toEqual([mockEpispode1, mockEpispode2]);
         });
     });
+
     describe('fetchAllEpisodes', () => {
         test('filtered upon "Pi" serach value', async () => {
             fetchMock.mockResponseOnce(JSON.stringify(filteredEpisodes));
