@@ -39,7 +39,7 @@ function Caracter() {
                     key={id}
                     id={characters?.[0].id || 0}
                     name={characters?.[0].name || ''}
-                    image={characters?.[0].image || ''}
+                    imageSrc={characters?.[0].image || ''}
                 />
                 <h2>Episodes:</h2>
                 <Scroller items={elisodeComponents} />

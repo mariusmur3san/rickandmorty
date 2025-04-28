@@ -1,28 +1,31 @@
 import { memo } from 'react';
+import { useImage } from './Hooks';
 
 interface OwnProps {
-  id: number;
-  name: string;
-  image: string;
+    id: number;
+    name: string;
+    imageSrc: string;
 }
 
 const CharacterCard = memo(function CharacterCard({
-  id,
-  name,
-  image,
+    id,
+    name,
+    imageSrc,
 }: OwnProps) {
-  return (
-    <article className="character">
-      <div className="image">
-        <img src={image} />
-      </div>
-      <div className="details">
-        <h2>
-          {name} # {id}
-        </h2>
-      </div>
-    </article>
-  );
+    const { data: src } = useImage(imageSrc);
+
+    return (
+        <article className="character">
+            <div className="image">
+                <img src={src} />
+            </div>
+            <div className="details">
+                <h2>
+                    {name} # {id}
+                </h2>
+            </div>
+        </article>
+    );
 });
 
 export default CharacterCard;
