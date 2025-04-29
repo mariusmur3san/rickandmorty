@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { useImage } from './Hooks';
+// import { useImage } from './Hooks';
 
 interface OwnProps {
     id: number;
@@ -12,12 +12,12 @@ const CharacterCard = memo(function CharacterCard({
     name,
     imageSrc,
 }: OwnProps) {
-    const { data: src } = useImage(imageSrc);
+    // const { data: src } = useImage(imageSrc);
 
     return (
         <article className="character">
             <div className="image">
-                <img src={src} />
+                <img src={imageSrc} />
             </div>
             <div className="details">
                 <h2>
